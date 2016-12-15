@@ -3,6 +3,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Dictionary;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Random;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -65,6 +67,20 @@ public class Main {
 
 		if (br != null) br.close();
 		System.out.println(dictionary.size());
+		findRandomWord();
+		findRandomWord();
+	}
 
+	public static void findRandomWord(){
+		Random rn = new Random();
+		int randomNumber = rn.nextInt(dictionary.size());
+		Iterator it = dictionary.iterator();
+		int counter = 0;
+
+		while(counter < randomNumber){
+			it.next();
+			counter++;
+		}
+		System.out.println(it.next());	
 	}
 }
