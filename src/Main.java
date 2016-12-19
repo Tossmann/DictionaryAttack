@@ -3,6 +3,7 @@ import java.io.Console;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -17,6 +18,7 @@ public class Main {
 	private static HashSet<String> dictionary = new HashSet<>();
 
 	public static void main(String[] args) throws Exception{
+		analyzeProbabelPlainMessage("hallodusackgesicht");
 		importWordList();
 		ourInteface();
 	}
@@ -47,12 +49,49 @@ public class Main {
 		String password = getPassword();
 		String message = getString("Please enter your message: ");
 		String cypher = encryptMessage(password,message);
+		
+		
 		System.out.println("Cypher: " + cypher);
 	}
 	
 	private static void bruteForce() {
 		String cypher = getString("Please enter the cypher-message: ");
+		
+		ArrayList probabelPlainMessages = new ArrayList();
+		
+		Iterator iterator = dictionary.iterator();
+		while (iterator.hasNext()) {
+			String probabelKey = (String) iterator.next();
+		    String probabelPlainMessage = decrypt(probabelKey,cypher);
+		    if (analyzeProbabelPlainMessage(probabelPlainMessage)) 
+		    		probabelPlainMessages.add(probabelPlainMessage);
+		}
+		
 		System.out.println(cypher);
+	}
+	
+	private static String decrypt(String key,String cypher) {
+		return  cypher; //TODO
+	}
+	
+	private static Boolean analyzeProbabelPlainMessage(String message) {
+		String firstPartOfMessage = message.substring(0, 9);
+		String[] splittetMessage;
+		for (int i = 2; i < 10; i ++) {
+			splittetMessage = firstPartOfMessage.split("(?<=\\G.{" + i + "})");
+			if (analyzeSplittetMessage(splittetMessage))
+				return true;
+		}
+		return false;
+	}
+	
+	private static Boolean analyzeSplittetMessage(String [] splittetMessage) {
+		for (String part : splittetMessage){
+		      if (dictionary.contains(part)) {
+		         return true;
+		      }
+		   }
+		return false;
 	}
 	
 	private static String getPassword(){
@@ -67,8 +106,6 @@ public class Main {
 		String input = scanInput.nextLine();
 		return input;
 	}
-	
-	
 	
 	private static String encryptMessage(String password, String message) {
 		return (message + password);
