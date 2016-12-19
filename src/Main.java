@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -18,7 +19,6 @@ public class Main {
 	public static void main(String[] args) throws Exception{
 		importWordList();
 		ourInteface();
-		findRandomWord();
 	}
 
 	private static void ourInteface() {
@@ -27,19 +27,61 @@ public class Main {
 		
 		while (!input.equals("exit")) {
 			printOptions();
-			input = in.next();
+			input = in.nextLine();
 			runOption(input);
 		}
 	}
 	
 	private static void runOption(String input) {
-		System.out.println(input);
+		switch (input) {
+        case "encrypt": simpleEncryption();
+                 break;
+        case "exit" : 	printExitText();
+        		break;
+        case "bruteforce": bruteForce();
+        		break;
+		}
+	}
+	
+	private static void simpleEncryption() {
+		String password = getPassword();
+		String message = getString("Please enter your message: ");
+		String cypher = encryptMessage(password,message);
+		System.out.println("Cypher: " + cypher);
+	}
+	
+	private static void bruteForce() {
+		String cypher = getString("Please enter the cypher-message: ");
+		System.out.println(cypher);
+	}
+	
+	private static String getPassword(){
+		String password = findRandomWord();
+		System.out.println("Your randomly choosed Password is: '" + password + "'");
+		return password;
+	}
+	
+	private static String getString(String message) {
+		System.out.println(message);
+		Scanner scanInput = new Scanner(System.in);
+		String input = scanInput.nextLine();
+		return input;
+	}
+	
+	
+	
+	private static String encryptMessage(String password, String message) {
+		return (message + password);
+	}
+	
+	private static void printExitText() {
+		System.out.println("Bye"); 
 	}
 	
 	private static void printOptions() {
 		System.out.println();
 		System.out.println("what you want to do? Your options are:");
-		System.out.println("'exit' for stopping the programm, 'encrypt' for encrypting a message");
+		System.out.println("'exit' 'encrypt' 'bruteforce'");
 	}	
 	
 	private static void encryption(){
@@ -103,7 +145,7 @@ public class Main {
 		System.out.println("Dictanary has " + dictionary.size() + " entries.");
 	}
 	
-	public static void findRandomWord(){
+	public static String findRandomWord(){
 		Random rn = new Random();
 		int randomNumber = rn.nextInt(dictionary.size());
 		Iterator it = dictionary.iterator();
@@ -113,6 +155,6 @@ public class Main {
 			it.next();
 			counter++;
 		}
-		System.out.println(it.next());	
+		return (String)it.next();	
 	}
 }
