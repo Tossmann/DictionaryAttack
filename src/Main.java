@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Dictionary;
@@ -14,6 +15,14 @@ public class Main {
 	private static HashSet<String> dictionary = new HashSet<>();
 
 	public static void main(String[] args) throws Exception{
+		importWordList();
+		
+		
+		
+		findRandomWord();
+	}
+
+	private static void encryption(){
 
 		/*
 
@@ -57,20 +66,23 @@ public class Main {
 
 		System.out.println("plain text : " + Utils.toHex(plainText) + " bytes: " + ptLength);
 		 */
+	}
+	
+	private static void importWordList() throws IOException {
+		System.out.println("Import of Wordlists starts ...");
+		
 		BufferedReader br = null;
 		String sCurrentLine;
 		br = new BufferedReader(new FileReader("src/words.txt"));
-
 		while ((sCurrentLine = br.readLine()) != null) {
 			dictionary.add(sCurrentLine);
 		}
-
 		if (br != null) br.close();
-		System.out.println(dictionary.size());
-		findRandomWord();
-		findRandomWord();
+		
+		System.out.println("Import of Wordlists succeded");
+		System.out.println("Dictanary has " + dictionary.size() + " entries.");
 	}
-
+	
 	public static void findRandomWord(){
 		Random rn = new Random();
 		int randomNumber = rn.nextInt(dictionary.size());
