@@ -25,22 +25,28 @@ public class BruteForce {
 	}
 	
 	public static Boolean analyzeProbabelPlainMessage(String message) {
-		String firstPartOfMessage = message.substring(0, 9);
+
 		String[] splittetMessage;
 		for (int i = 2; i < 10; i ++) {
-			splittetMessage = firstPartOfMessage.split("(?<=\\G.{" + i + "})");
-			if (analyzeSplittetMessage(splittetMessage))
-				return true;
+			for (int j = 0; j < i; j ++) {
+				String partOfMessage = message.substring(j, j+9);
+				splittetMessage = partOfMessage.split("(?<=\\G.{" + i + "})");
+				if (analyzeSplittetMessage(splittetMessage) >= (1/i))
+					return true;
+			}
 		}
 		return false;
 	}
 	
-	private static Boolean analyzeSplittetMessage(String [] splittetMessage) {
+	private static double analyzeSplittetMessage(String [] splittetMessage) {
+		int result = 0;
+		int amountOfParts = 0;
 		for (String part : splittetMessage){
+			amountOfParts ++;
 		      if (part.length() > 1 && dictionary.contains(part)) {
-		         return true;
+		         result ++;
 		      }
 		   }
-		return false;
+		return result / amountOfParts;
 	}
 }
