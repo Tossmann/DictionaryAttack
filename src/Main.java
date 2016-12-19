@@ -6,6 +6,7 @@ import java.util.Dictionary;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.Scanner;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -16,12 +17,31 @@ public class Main {
 
 	public static void main(String[] args) throws Exception{
 		importWordList();
-		
-		
-		
+		ourInteface();
 		findRandomWord();
 	}
 
+	private static void ourInteface() {
+		String input = "";
+		Scanner in = new Scanner(System.in);
+		
+		while (!input.equals("exit")) {
+			printOptions();
+			input = in.next();
+			runOption(input);
+		}
+	}
+	
+	private static void runOption(String input) {
+		System.out.println(input);
+	}
+	
+	private static void printOptions() {
+		System.out.println();
+		System.out.println("what you want to do? Your options are:");
+		System.out.println("'exit' for stopping the programm, 'encrypt' for encrypting a message");
+	}	
+	
 	private static void encryption(){
 
 		/*
