@@ -23,9 +23,18 @@ public class Main {
 	private static HashSet<String> dictionary = new HashSet<>();
 
 	public static void main(String[] args) throws Exception{
+		testFuncionality();
 		importWordList();
 		ourInteface();
 		simpleEncryption();
+	}
+
+	private static void testFuncionality() throws Exception {
+		String testKey = "hohoho";
+		String testMessage = "blablub";
+		String encryptionResult = encrypt(testKey, testMessage);
+		String decryptionResult = decrypt(testKey, encryptionResult).trim();
+		System.out.println(decryptionResult.equals(testMessage));
 	}
 
 	private static void ourInteface() throws Exception {
@@ -53,7 +62,7 @@ public class Main {
 	private static void simpleEncryption() throws Exception {
 		String password = getPassword();
 		String message = getString("Please enter your message: ");
-		String cypher = encryptMessage(password,message);
+		String cypher = encrypt(password,message);
 		System.out.println("Cypher: " + cypher);
 	}
 
@@ -77,7 +86,7 @@ public class Main {
 
 
 
-	private static String encryptMessage(String password, String message) throws Exception {
+	private static String encrypt(String password, String message) throws Exception {
 
 		byte[] keyBytes = new byte[16];
 		byte[] input = new byte[16];
@@ -98,6 +107,27 @@ public class Main {
 
 		return Utils.toHex(cipherText);
 	}
+	
+	private static String decrypt(String password, String ciphertextHex) throws Exception {
+
+		byte[] keyBytes = new byte[16];
+		byte[] input = new byte[16];
+		byte[] cipherText;
+
+		String hexPw = toHex(password);
+		input = toByteArray(ciphertextHex);
+		keyBytes = toByteArray(hexPw);
+
+
+		SecretKeySpec key = new SecretKeySpec(keyBytes, "Blowfish");
+		Cipher        cipher = Cipher.getInstance("Blowfish/ECB/ISO10126Padding", "BC");
+		cipher.init(Cipher.DECRYPT_MODE, key);
+		cipherText = new byte[cipher.getOutputSize(input.length)];
+		int ctLength = cipher.update(input, 0, input.length, cipherText, 0);
+		ctLength += cipher.doFinal(cipherText, ctLength);
+		
+		return new String(cipherText, "UTF-8");
+	}
 
 	private static void printExitText() {
 		System.out.println("Bye"); 
@@ -110,49 +140,6 @@ public class Main {
 	}	
 
 	private static void encryption(){
-
-		/*
-
-		byte[]        input = new byte[] { 
-				0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 
-				(byte)0x88, (byte)0x99, (byte)0xaa, (byte)0xbb,
-				(byte)0xcc, (byte)0xdd, (byte)0xee, (byte)0xff };
-		byte[]        keyBytes = new byte[] { 
-				0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-				0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
-				0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17 };
-
-		SecretKeySpec key = new SecretKeySpec(keyBytes, "AES");
-
-		Cipher        cipher = Cipher.getInstance("AES/ECB/NoPadding", "BC");
-
-
-		System.out.println("input text : " + Utils.toHex(input));
-
-		// encryption pass
-
-		byte[] cipherText = new byte[input.length];
-
-		cipher.init(Cipher.ENCRYPT_MODE, key);
-
-		int ctLength = cipher.update(input, 0, input.length, cipherText, 0);
-
-		ctLength += cipher.doFinal(cipherText, ctLength);
-
-		System.out.println("cipher text: " + Utils.toHex(cipherText) + " bytes: " + ctLength);
-
-		// decryption pass
-
-		byte[] plainText = new byte[ctLength];
-
-		cipher.init(Cipher.DECRYPT_MODE, key);
-
-		int ptLength = cipher.update(cipherText, 0, ctLength, plainText, 0);
-
-		ptLength += cipher.doFinal(plainText, ptLength);
-
-		System.out.println("plain text : " + Utils.toHex(plainText) + " bytes: " + ptLength);
-		 */
 	}
 
 	public static byte[] toByteArray(String hexString){
