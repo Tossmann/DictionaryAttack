@@ -19,6 +19,10 @@ public class Main {
 
 	public static void main(String[] args) throws Exception{
 		importWordList();
+		
+		BruteForce brute = new BruteForce(dictionary);
+		System.out.println(brute.analyzeProbabelPlainMessage("dfghhguygfdfghj"));
+		
 		ourInteface();
 	}
 
