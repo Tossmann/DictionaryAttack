@@ -4,13 +4,15 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
+import org.bouncycastle.util.encoders.Hex;
+
 public class EnAndDecryption {
 
 	public static void testFuncionality() throws Exception {
 		System.out.println("Functionality Test for Encryption and Decryption runs ...");
 
-		String testKey = "hohohop";
-		String testMessage = "blablub";
+		String testKey = "tree";
+		String testMessage = "home is berlin";
 		String encryptionResult = encrypt(testKey, testMessage);
 		String decryptionResult = decrypt(testKey, encryptionResult).trim();
 

@@ -15,15 +15,25 @@ public class Main {
 
 	public static void main(String[] args) throws Exception{
 		importWordList();
+		createMessage("9", "feel good");
 		test();
 		ourInteface();
 	}
+	private static void createMessage(String number, String message) throws Exception {
+		String encryptedMessage1 = EnAndDecryption.encrypt("library", message);
+		String encryptedMessage2 = EnAndDecryption.encrypt("library" + number, message);
+		
+		System.out.println("----------------------------------");
+		System.out.println("EncryptedMessage #1: "+ encryptedMessage1);
+		System.out.println("EncryptedMessage #2: "+ encryptedMessage2);
+		System.out.println("----------------------------------");
+	}
 	private static void test() throws Exception{
-		//EnAndDecryption.testFuncionality();
+		EnAndDecryption.testFuncionality();
 
 		BruteForce bruteForce = new BruteForce(dictionary);
-		ArrayList<String> answers = bruteForce.doBruteForcing("8483a970d688e5a7948bb4867880749e5214121bfc7a1834b812af88d8bd910347a27ff99c3c3d31");
-		for (String currentAnswer : answers){
+		ArrayList<String> answers = bruteForce.doBruteForcing("a427b560e17cbff28640f595a61c2db64d21310ef14ff359");
+		for (String currentAnswer : answers){				   
 			System.out.println(currentAnswer);
 		}
 	}
@@ -63,7 +73,7 @@ public class Main {
 		BruteForce bruteForce = new BruteForce(dictionary);
 		ArrayList<String> answers = bruteForce.doBruteForcing(cypher);
 	}	
-	
+
 	private static String getPassword(){
 		String password = findRandomWord();
 		System.out.println("Your randomly choosed Password is: '" + password + "'");
@@ -80,7 +90,7 @@ public class Main {
 	private static void printExitText() {
 		System.out.println("Bye"); 
 	}
-	
+
 	private static void printOptions() {
 		System.out.println();
 		System.out.println("what you want to do? Your options are:");
