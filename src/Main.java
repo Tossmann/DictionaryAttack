@@ -15,17 +15,15 @@ public class Main {
 
 	public static void main(String[] args) throws Exception{
 		importWordList();
-		test();
+	//	test();
 		ourInteface();
 	}
 	private static void test() throws Exception{
 		//EnAndDecryption.testFuncionality();
 
 		BruteForce bruteForce = new BruteForce(dictionary);
-		ArrayList<String> answers = bruteForce.doBruteForcing("8483a970d688e5a7948bb4867880749e5214121bfc7a1834b812af88d8bd910347a27ff99c3c3d31");
-		for (String currentAnswer : answers){
-			System.out.println(currentAnswer);
-		}
+		ArrayList<String> answers = bruteForce.doBruteForcing("910f16db67cb3b9a47a09f791e413e625c6a6033ccbe75a1");
+
 	}
 
 	private static void ourInteface() throws Exception {
