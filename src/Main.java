@@ -26,11 +26,16 @@ public class Main {
 		testFuncionality();
 		importWordList();
 		ourInteface();
-		simpleEncryption();
+	}
+
+	private static String createEncryptedMessage(String number) throws Exception {
+		String message = "Das Internet ist für uns alle Neuland.";
+		String password = getPassword() + number;
+		return encrypt(password, message);
 	}
 
 	private static void testFuncionality() throws Exception {
-		String testKey = "hohoho";
+		String testKey = "hohohop";
 		String testMessage = "blablub";
 		String encryptionResult = encrypt(testKey, testMessage);
 		String decryptionResult = decrypt(testKey, encryptionResult).trim();
