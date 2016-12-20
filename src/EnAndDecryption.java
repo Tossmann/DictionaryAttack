@@ -55,7 +55,7 @@ public class EnAndDecryption {
 
 
 		SecretKeySpec key = new SecretKeySpec(keyBytes, "Blowfish");
-		Cipher        cipher = Cipher.getInstance("Blowfish/ECB/ISO10126Padding", "BC");
+		Cipher        cipher = Cipher.getInstance("Blowfish/ECB/NoPadding", "BC");
 		cipher.init(Cipher.DECRYPT_MODE, key);
 		cipherText = new byte[cipher.getOutputSize(input.length)];
 		int ctLength = cipher.update(input, 0, input.length, cipherText, 0);

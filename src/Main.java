@@ -19,10 +19,10 @@ public class Main {
 		ourInteface();
 	}
 	private static void test() throws Exception{
-		EnAndDecryption.testFuncionality();
+		//EnAndDecryption.testFuncionality();
 
 		BruteForce bruteForce = new BruteForce(dictionary);
-		ArrayList<String> answers = bruteForce.doBruteForcing("c6e98b2c3ba7a8e80e48f6d0d708f5fee988129ffcea1a3b");
+		ArrayList<String> answers = bruteForce.doBruteForcing("8483a970d688e5a7948bb4867880749e5214121bfc7a1834b812af88d8bd910347a27ff99c3c3d31");
 		for (String currentAnswer : answers){
 			System.out.println(currentAnswer);
 		}
