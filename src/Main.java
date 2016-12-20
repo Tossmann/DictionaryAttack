@@ -22,7 +22,7 @@ public class Main {
 		EnAndDecryption.testFuncionality();
 
 		BruteForce bruteForce = new BruteForce(dictionary);
-		ArrayList<String> answers = bruteForce.doBruteForcing("3e56dc690aec526e3a1ae35e169dc60a6d0dc5f5cbfd7a1ca231b8fd3a38a89b6ff71c1e28bd5ff8");
+		ArrayList<String> answers = bruteForce.doBruteForcing("c6e98b2c3ba7a8e80e48f6d0d708f5fee988129ffcea1a3b");
 		for (String currentAnswer : answers){
 			System.out.println(currentAnswer);
 		}
