@@ -28,8 +28,7 @@ public class Main {
 		ourInteface();
 	}
 
-	private static String createEncryptedMessage(String number) throws Exception {
-		String message = "Das Internet ist für uns alle Neuland.";
+	private static String createEncryptedMessage(String number, String message) throws Exception {
 		String password = getPassword() + number;
 		return encrypt(password, message);
 	}
