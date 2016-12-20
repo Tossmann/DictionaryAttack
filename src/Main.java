@@ -14,12 +14,18 @@ public class Main {
 	private static HashSet<String> dictionary = new HashSet<>();
 
 	public static void main(String[] args) throws Exception{
-		//test();
 		importWordList();
+		test();
 		ourInteface();
 	}
 	private static void test() throws Exception{
 		EnAndDecryption.testFuncionality();
+
+		BruteForce bruteForce = new BruteForce(dictionary);
+		ArrayList<String> answers = bruteForce.doBruteForcing("3e56dc690aec526e3a1ae35e169dc60a6d0dc5f5cbfd7a1ca231b8fd3a38a89b6ff71c1e28bd5ff8");
+		for (String currentAnswer : answers){
+			System.out.println(currentAnswer);
+		}
 	}
 
 	private static void ourInteface() throws Exception {

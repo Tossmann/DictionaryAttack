@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 public class BruteForce {
 	
-	private static HashSet<String> dictionary = new HashSet<>();
+	private  HashSet<String> dictionary = new HashSet<>();
 	
 	public BruteForce (HashSet<String> dictionary) {
 		this.dictionary = dictionary;
@@ -24,7 +24,7 @@ public class BruteForce {
 		return probabelPlainMessages;
 	}
 	
-	public static Boolean analyzeProbabelPlainMessage(String message) {
+	public Boolean analyzeProbabelPlainMessage(String message) {
 
 		String[] splittetMessage;
 		for (int i = 2; i < 10; i ++) {
@@ -38,7 +38,7 @@ public class BruteForce {
 		return false;
 	}
 	
-	private static double analyzeSplittetMessage(String [] splittetMessage) {
+	private double analyzeSplittetMessage(String [] splittetMessage) {
 		int result = 0;
 		int amountOfParts = 0;
 		for (String part : splittetMessage){

@@ -7,11 +7,18 @@ import javax.xml.bind.DatatypeConverter;
 public class EnAndDecryption {
 
 	public static void testFuncionality() throws Exception {
+		System.out.println("Functionality Test for Encryption and Decryption runs ...");
+
 		String testKey = "hohohop";
 		String testMessage = "blablub";
 		String encryptionResult = encrypt(testKey, testMessage);
 		String decryptionResult = decrypt(testKey, encryptionResult).trim();
-		System.out.println(decryptionResult.equals(testMessage));
+
+		if (decryptionResult.equals(testMessage))
+		    System.out.println("Functionality Test for Encryption and Decryption was successfull");
+        else
+            System.out.println("Functionality Test for Encryption and Decryption failed");
+        System.out.println();
 	}
 	
 	public static String encrypt(String password, String message) throws Exception {
