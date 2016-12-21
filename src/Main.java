@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
@@ -15,21 +16,27 @@ public class Main {
 
 	public static void main(String[] args) throws Exception{
 		importWordList();
+		createMessage("9", "feel good");
 		test();
 	//	ourInteface();
 	}
+	private static void createMessage(String number, String message) throws Exception {
+		String encryptedMessage1 = EnAndDecryption.encrypt("library", message);
+		String encryptedMessage2 = EnAndDecryption.encrypt("library" + number, message);
+		
+		System.out.println("----------------------------------");
+		System.out.println("Message that we encrypted: " + message);
+		System.out.println("Password #1: library");
+		System.out.println("EncryptedMessage #1: "+ encryptedMessage1);
+		System.out.println("Password #2: library" + number);
+		System.out.println("EncryptedMessage #2: "+ encryptedMessage2);
+		System.out.println("----------------------------------");
+	}
 	private static void test() throws Exception{
-		//EnAndDecryption.testFuncionality();
+		EnAndDecryption.testFuncionality();
 
 		//BruteForce bruteForce = new BruteForce(dictionary);
 		//ArrayList<String> answers = bruteForce.doBruteForcing("2d9d562a1e9c0e2aaf60d1d4cdfff0e163696ab3581b486707c462917488cca4e5dfde6ffdd30820ca53308a2dd55f93bc65d31c9874d99f730769c152401151c9c928126df4be1a52f5838516d3b439496d2780b8b3a74b5c354f03f0dbc2ea2c7de4f268856c02803747dea0b84cd24387c3ce2e0cc3db9938667a1a3c5617e9b2cac8fe9a78985c10c20c93a177c5");
-
-		//System.out.println(EnAndDecryption.decryptFromTimur("strawberry","2d9d562a1e9c0e2aaf60d1d4cdfff0e163696ab3581b486707c462917488cca4e5dfde6ffdd30820ca53308a2dd55f93bc65d31c9874d99f730769c152401151c9c928126df4be1a52f5838516d3b439496d2780b8b3a74b5c354f03f0dbc2ea2c7de4f268856c02803747dea0b84cd24387c3ce2e0cc3db9938667a1a3c5617e9b2cac8fe9a78985c10c20c93a177c5"));
-		//System.out.println(EnAndDecryption.decrypt("strawberry","2d9d562a1e9c0e2aaf60d1d4cdfff0e163696ab3581b486707c462917488cca4e5dfde6ffdd30820ca53308a2dd55f93bc65d31c9874d99f730769c152401151c9c928126df4be1a52f5838516d3b439496d2780b8b3a74b5c354f03f0dbc2ea2c7de4f268856c02803747dea0b84cd24387c3ce2e0cc3db9938667a1a3c5617e9b2cac8fe9a78985c10c20c93a177c5"));
-
-		System.out.println(EnAndDecryption.timurToHex("strawberry"));
-		System.out.println((EnAndDecryption.toHex("strawberry")));
-
 
 	}
 
@@ -68,7 +75,7 @@ public class Main {
 		BruteForce bruteForce = new BruteForce(dictionary);
 		ArrayList<String> answers = bruteForce.doBruteForcing(cypher);
 	}	
-	
+
 	private static String getPassword(){
 		String password = findRandomWord();
 		System.out.println("Your randomly choosed Password is: '" + password + "'");
@@ -85,7 +92,7 @@ public class Main {
 	private static void printExitText() {
 		System.out.println("Bye"); 
 	}
-	
+
 	private static void printOptions() {
 		System.out.println();
 		System.out.println("what you want to do? Your options are:");
@@ -118,5 +125,16 @@ public class Main {
 			counter++;
 		}
 		return (String)it.next();	
+	}
+	
+	public static byte[] hexStringToByteArray(String s) {
+        int len = s.length();
+        byte[] data = new byte[len / 2];
+        for (int i = 0; i < len; i += 2) {
+            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                    + Character.digit(s.charAt(i+1), 16));
+        }
+        System.out.println(Arrays.toString(data));
+        return data;
 	}
 }
