@@ -14,32 +14,33 @@ public class BruteForce {
 	
 	public void doBruteForcing(String message) throws Exception {
         System.out.println("Bruteforcing runs ...");
+        long start_time = System.currentTimeMillis();
 
 		Iterator iterator = dictionary.iterator();
 		int amountOfResults = 0;
 
 		while (iterator.hasNext()) {
 			String probabelKey = (String) iterator.next();
-		    String probabelPlainMessage = EnAndDecryption.decrypt(probabelKey,message);
+            if (probabelKey.length() > 0) {
+                String probabelPlainMessage = EnAndDecryption.decrypt(probabelKey,message);
 
-		    if (analyzeProbabelPlainMessage(probabelPlainMessage)) {
-                System.out.println(probabelPlainMessage + " - " + probabelKey);
-                amountOfResults ++;
+                if (analyzeProbabelPlainMessage(probabelPlainMessage)) {
+                    System.out.println(probabelPlainMessage + " - " + probabelKey);
+                    amountOfResults ++;
+                }
             }
 		}
-		System.out.println("Bruteforcing ends.");
+        long end_time = System.currentTimeMillis();
+		System.out.println("Bruteforcing ends. And needed " + (end_time - start_time) + " ms");
         System.out.println("AmountOfResults: " + amountOfResults);
 	}
-
 
     public Boolean analyzeProbabelPlainMessage(String message) {
 
 		if (! doesMessageHaveMinimumOfCharacters(message,0.5))
 		    return false;
 
-		return doesMessageHaveMinimumOfWordsInIt(message,10);
-
-		//return noticeFiller(message);
+		return doesMessageHaveMinimumOfWordsInIt(message,2);
     }
 
 	private boolean doesMessageHaveMinimumOfCharacters(String message, double procentage) {
@@ -54,19 +55,6 @@ public class BruteForce {
             }
         }
         if ((amountOfTrue/wholeAmount) >= procentage)
-            return true;
-        return false;
-    }
-
-    private boolean noticeFiller(String message) {
-        Pattern letter = Pattern.compile("[A-Za-z]");
-        String [] parts = message.split("(?!^)");
-        int amount = 0;
-        for(String part : parts) {
-            if(part.equals("\u0000"))
-                amount ++;
-        }
-        if (amount >= 5)
             return true;
         return false;
     }

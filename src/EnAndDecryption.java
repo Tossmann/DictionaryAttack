@@ -63,7 +63,7 @@ public class EnAndDecryption {
 		byte[] cipherText;
 
 		String hexPw = convertStringToHex(password);
-		hexPw = doPadding(hexPw);
+		//hexPw = doPadding(hexPw);
 		input = toByteArray(ciphertextHex);
 		keyBytes = toByteArray(hexPw);
 
