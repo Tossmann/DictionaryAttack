@@ -6,7 +6,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
-import org.bouncycastle.util.encoders.Hex;
+//import org.bouncycastle.util.encoders.Hex;
 
 public class EnAndDecryption {
 
@@ -80,6 +80,7 @@ public class EnAndDecryption {
 	public static byte[] toByteArray(String hexString){
 		return DatatypeConverter.parseHexBinary(hexString);
 	}
+
 
 	private static String convertStringToHex(String s) { 
         if (s.length() == 0) 

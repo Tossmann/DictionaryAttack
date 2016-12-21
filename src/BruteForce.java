@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class BruteForce {
 	
@@ -10,43 +12,99 @@ public class BruteForce {
 		this.dictionary = dictionary;
 	}
 	
-	public ArrayList<String> doBruteForcing(String message) throws Exception {
-		ArrayList probabelPlainMessages = new ArrayList();
-		
+	public void doBruteForcing(String message) throws Exception {
+        System.out.println("Bruteforcing runs ...");
+
 		Iterator iterator = dictionary.iterator();
-		
+		int amountOfResults = 0;
+
 		while (iterator.hasNext()) {
 			String probabelKey = (String) iterator.next();
 		    String probabelPlainMessage = EnAndDecryption.decrypt(probabelKey,message);
-		    if (analyzeProbabelPlainMessage(probabelPlainMessage)) 
-		    		probabelPlainMessages.add(probabelPlainMessage);
-		}
-		return probabelPlainMessages;
-	}
-	
-	public Boolean analyzeProbabelPlainMessage(String message) {
 
-		String[] splittetMessage;
-		for (int i = 2; i < 10; i ++) {
-			for (int j = 0; j < i; j ++) {
-				String partOfMessage = message.substring(j, j+9);
-				splittetMessage = partOfMessage.split("(?<=\\G.{" + i + "})");
-				if (analyzeSplittetMessage(splittetMessage) >= (1/i))
-					return true;
-			}
+		    if (analyzeProbabelPlainMessage(probabelPlainMessage)) {
+                System.out.println(probabelPlainMessage + " - " + probabelKey);
+                amountOfResults ++;
+            }
 		}
-		return false;
+		System.out.println("Bruteforcing ends.");
+        System.out.println("AmountOfResults: " + amountOfResults);
 	}
-	
-	private double analyzeSplittetMessage(String [] splittetMessage) {
-		int result = 0;
-		int amountOfParts = 0;
+
+
+    public Boolean analyzeProbabelPlainMessage(String message) {
+
+		if (! doesMessageHaveMinimumOfCharacters(message,0.5))
+		    return false;
+
+		return doesMessageHaveMinimumOfWordsInIt(message,10);
+
+		//return noticeFiller(message);
+    }
+
+	private boolean doesMessageHaveMinimumOfCharacters(String message, double procentage) {
+        Pattern letter = Pattern.compile("[A-Za-z]");
+        String [] parts = message.split("(?!^)");
+        double wholeAmount = 0;
+        double amountOfTrue = 0;
+        for(String part : parts) {
+            wholeAmount ++;
+            if (letter.matcher(part).matches()) {
+                amountOfTrue++;
+            }
+        }
+        if ((amountOfTrue/wholeAmount) >= procentage)
+            return true;
+        return false;
+    }
+
+    private boolean noticeFiller(String message) {
+        Pattern letter = Pattern.compile("[A-Za-z]");
+        String [] parts = message.split("(?!^)");
+        int amount = 0;
+        for(String part : parts) {
+            if(part.equals("\u0000"))
+                amount ++;
+        }
+        if (amount >= 5)
+            return true;
+        return false;
+    }
+
+    private boolean doesMessageHaveMinimumOfWordsInIt(String message, int minAmountOfWords) {
+        String [] parts = message.split("\\P{Alpha}+");
+
+        for (String part: parts) {
+            if (part.length() > 2) {
+
+                int amountOfWords = 0;
+
+                String[] splittetMessage;
+                int maxWordLength = 10;
+                if (part.length() < 10)
+                    maxWordLength = part.length() + 1;
+                for (int i = 3; i < maxWordLength; i ++) {
+                    String filler = "";
+                    for (int j = 0; j < i; j ++) {
+                        splittetMessage = (filler + part).split("(?<=\\G.{" + i + "})");
+                        amountOfWords += analyzeSplittetMessage(splittetMessage);
+                        if (amountOfWords >= minAmountOfWords)
+                            return true;
+                        filler += "-";
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+	private int analyzeSplittetMessage(String [] splittetMessage) {
+        int amountOfFoundWords = 0;
 		for (String part : splittetMessage){
-			amountOfParts ++;
-		      if (part.length() > 1 && dictionary.contains(part)) {
-		         result ++;
+		      if (part.length() > 2 && dictionary.contains(part.toLowerCase())) {
+                  amountOfFoundWords ++;
 		      }
 		   }
-		return result / amountOfParts;
+		return amountOfFoundWords;
 	}
 }
