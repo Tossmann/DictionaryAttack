@@ -12,33 +12,67 @@ public class BruteForce {
 		this.dictionary = dictionary;
 	}
 	
-	public ArrayList<String> doBruteForcing(String message) throws Exception {
-		ArrayList probabelPlainMessages = new ArrayList();
-		
+	public void doBruteForcing(String message) throws Exception {
+        System.out.println("Bruteforcing runs ...");
+
 		Iterator iterator = dictionary.iterator();
-		
+		int amountOfResults = 0;
+
 		while (iterator.hasNext()) {
 			String probabelKey = (String) iterator.next();
-            if (probabelKey.equals("strawberry"))
-                System.out.println();
 		    String probabelPlainMessage = EnAndDecryption.decrypt(probabelKey,message);
 
 		    if (analyzeProbabelPlainMessage(probabelPlainMessage)) {
                 System.out.println(probabelPlainMessage + " - " + probabelKey);
-                probabelPlainMessages.add(probabelPlainMessage);
+                amountOfResults ++;
             }
 		}
-        System.out.println("amountOfResults: " + probabelPlainMessages.size());
-		return probabelPlainMessages;
+		System.out.println("Bruteforcing ends.");
+        System.out.println("AmountOfResults: " + amountOfResults);
 	}
-	
-	public Boolean analyzeProbabelPlainMessage(String message) {
 
-        if(message.equals("g/�R&��\u0017-����\u0004\u0012���\u0004g*p�yH��3\u0007�O0��Ǭ���a5C�c�X����Pvu��8n�{�A�c1�'l-�����\u001C�\u0014�NI\u000BN���>.��J\u000Bb(;GStart�DJH�%]+Y}9���m)Z\u001A��Pw�çc�n;{�'�\u0003t�\u007Fg\u001F�ʂ"))
-            System.out.println();
 
-		Pattern letter = Pattern.compile("[A-Za-z]");
-		String [] parts = message.split("\\P{Alpha}+");
+    public Boolean analyzeProbabelPlainMessage(String message) {
+
+		if (! doesMessageHaveMinimumOfCharacters(message,0.5))
+		    return false;
+
+		return doesMessageHaveMinimumOfWordsInIt(message,10);
+
+		//return noticeFiller(message);
+    }
+
+	private boolean doesMessageHaveMinimumOfCharacters(String message, double procentage) {
+        Pattern letter = Pattern.compile("[A-Za-z]");
+        String [] parts = message.split("(?!^)");
+        double wholeAmount = 0;
+        double amountOfTrue = 0;
+        for(String part : parts) {
+            wholeAmount ++;
+            if (letter.matcher(part).matches()) {
+                amountOfTrue++;
+            }
+        }
+        if ((amountOfTrue/wholeAmount) >= procentage)
+            return true;
+        return false;
+    }
+
+    private boolean noticeFiller(String message) {
+        Pattern letter = Pattern.compile("[A-Za-z]");
+        String [] parts = message.split("(?!^)");
+        int amount = 0;
+        for(String part : parts) {
+            if(part.equals("\u0000"))
+                amount ++;
+        }
+        if (amount >= 5)
+            return true;
+        return false;
+    }
+
+    private boolean doesMessageHaveMinimumOfWordsInIt(String message, int minAmountOfWords) {
+        String [] parts = message.split("\\P{Alpha}+");
 
         for (String part: parts) {
             if (part.length() > 2) {
@@ -54,7 +88,7 @@ public class BruteForce {
                     for (int j = 0; j < i; j ++) {
                         splittetMessage = (filler + part).split("(?<=\\G.{" + i + "})");
                         amountOfWords += analyzeSplittetMessage(splittetMessage);
-                        if (amountOfWords >= 5)
+                        if (amountOfWords >= minAmountOfWords)
                             return true;
                         filler += "-";
                     }
@@ -62,9 +96,8 @@ public class BruteForce {
             }
         }
         return false;
+    }
 
-	}
-	
 	private int analyzeSplittetMessage(String [] splittetMessage) {
         int amountOfFoundWords = 0;
 		for (String part : splittetMessage){
