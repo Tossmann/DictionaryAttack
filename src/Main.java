@@ -17,13 +17,13 @@ public class Main {
 	public static void main(String[] args) throws Exception{
 		importWordList();
 		createMessage("9", "feel good");
+		EnAndDecryption.testFuncionality();
 		test();
 		ourInteface();
 	}
 	private static void createMessage(String number, String message) throws Exception {
 		String encryptedMessage1 = EnAndDecryption.encrypt("library", message);
 		String encryptedMessage2 = EnAndDecryption.encrypt("library" + number, message);
-		
 		System.out.println("----------------------------------");
 		System.out.println("Message that we encrypted: " + message);
 		System.out.println("Password #1: library");
@@ -33,10 +33,8 @@ public class Main {
 		System.out.println("----------------------------------");
 	}
 	private static void test() throws Exception{
-		EnAndDecryption.testFuncionality();
-
 		BruteForce bruteForce = new BruteForce(dictionary);
-		ArrayList<String> answers = bruteForce.doBruteForcing("a427b560e17cbff28640f595a61c2db64d21310ef14ff359");
+		ArrayList<String> answers = bruteForce.doBruteForcing("2d9d562a1e9c0e2aaf60d1d4cdfff0e163696ab3581b486707c462917488cca4e5dfde6ffdd30820ca53308a2dd55f93bc65d31c9874d99f730769c152401151c9c928126df4be1a52f5838516d3b439496d2780b8b3a74b5c354f03f0dbc2ea2c7de4f268856c02803747dea0b84cd24387c3ce2e0cc3db9938667a1a3c5617e9b2cac8fe9a78985c10c20c93a177c5");
 		for (String currentAnswer : answers){				   
 			System.out.println(currentAnswer);
 		}

@@ -16,7 +16,8 @@ public class EnAndDecryption {
 		String testKey = "tree";
 		String testMessage = "home is berlin";
 		String encryptionResult = encrypt(testKey, testMessage);
-		String decryptionResult = decrypt(testKey, encryptionResult).trim();
+		String decryptionResult = decrypt(testKey, encryptionResult);
+		System.out.println(decryptionResult);
 
 		if (decryptionResult.equals(testMessage))
 		    System.out.println("Functionality Test for Encryption and Decryption was successfull");
@@ -31,8 +32,8 @@ public class EnAndDecryption {
 		byte[] input;
 		byte[] cipherText;
 
-		String hexPw = toHex(password);
-		String hexMessage = toHex(message);
+		String hexPw = convertStringToHex(password);
+		String hexMessage = convertStringToHex(message);
 		hexPw = doPadding(hexPw);
 		hexMessage = doPadding(hexMessage);
 		input = toByteArray(hexMessage);
@@ -61,11 +62,10 @@ public class EnAndDecryption {
 		byte[] input;
 		byte[] cipherText;
 
-		String hexPw = toHex(password);
+		String hexPw = convertStringToHex(password);
 		hexPw = doPadding(hexPw);
 		input = toByteArray(ciphertextHex);
 		keyBytes = toByteArray(hexPw);
-
 
 		SecretKeySpec key = new SecretKeySpec(keyBytes, "Blowfish");
 		Cipher        cipher = Cipher.getInstance("Blowfish/ECB/NoPadding", "BC");
@@ -74,15 +74,22 @@ public class EnAndDecryption {
 		int ctLength = cipher.update(input, 0, input.length, cipherText, 0);
 		ctLength += cipher.doFinal(cipherText, ctLength);
 		
-		return new String(cipherText, "UTF-8");
+		return new String(cipherText, "UTF-8").trim();
 	}
 	
 	public static byte[] toByteArray(String hexString){
 		return DatatypeConverter.parseHexBinary(hexString);
 	}
 
-	public static String toHex(String arg) throws UnsupportedEncodingException {
-		return String.format("%040x", new BigInteger(1, arg.getBytes("UTF-8")));
-	}
-	
+	private static String convertStringToHex(String s) { 
+        if (s.length() == 0) 
+            return ""; 
+        char c; 
+        StringBuffer buff = new StringBuffer(); 
+        for (int i = 0; i < s.length(); i++) { 
+            c = s.charAt(i); 
+            buff.append(Integer.toHexString(c)); 
+        } 
+        return buff.toString().trim(); 
+    } 
 }
