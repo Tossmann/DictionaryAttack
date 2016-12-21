@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
@@ -24,7 +25,10 @@ public class Main {
 		String encryptedMessage2 = EnAndDecryption.encrypt("library" + number, message);
 		
 		System.out.println("----------------------------------");
+		System.out.println("Message that we encrypted: " + message);
+		System.out.println("Password #1: library");
 		System.out.println("EncryptedMessage #1: "+ encryptedMessage1);
+		System.out.println("Password #2: library" + number);
 		System.out.println("EncryptedMessage #2: "+ encryptedMessage2);
 		System.out.println("----------------------------------");
 	}
@@ -123,5 +127,16 @@ public class Main {
 			counter++;
 		}
 		return (String)it.next();	
+	}
+	
+	public static byte[] hexStringToByteArray(String s) {
+        int len = s.length();
+        byte[] data = new byte[len / 2];
+        for (int i = 0; i < len; i += 2) {
+            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                    + Character.digit(s.charAt(i+1), 16));
+        }
+        System.out.println(Arrays.toString(data));
+        return data;
 	}
 }
