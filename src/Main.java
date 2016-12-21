@@ -35,9 +35,7 @@ public class Main {
 	private static void test() throws Exception{
 
 		BruteForce bruteForce = new BruteForce(dictionary);
-		bruteForce.doBruteForcing("790837606a0789ef68dbea160aeab6c122a02e89e90e3273585f1fafc85d043047f52fa0c5e587cf");
-
-		//System.out.println(EnAndDecryption.decrypt("strawberry","2d9d562a1e9c0e2aaf60d1d4cdfff0e163696ab3581b486707c462917488cca4e5dfde6ffdd30820ca53308a2dd55f93bc65d31c9874d99f730769c152401151c9c928126df4be1a52f5838516d3b439496d2780b8b3a74b5c354f03f0dbc2ea2c7de4f268856c02803747dea0b84cd24387c3ce2e0cc3db9938667a1a3c5617e9b2cac8fe9a78985c10c20c93a177c5"));
+		bruteForce.doBruteForcing("563f38edc2dd18084af8cb3cae390aa1ef03475e09460d91");
 	}
 
 	private static void ourInteface() throws Exception {
@@ -111,7 +109,7 @@ public class Main {
 		if (br != null) br.close();
 
 		System.out.println("Import of Wordlists succeded");
-		System.out.println("Dictanary has " + dictionary.size() + " entries.");
+		System.out.println("Dictionary has " + dictionary.size() + " entries.");
 	}
 
 	public static String findRandomWord(){
