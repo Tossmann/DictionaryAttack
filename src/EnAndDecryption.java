@@ -71,5 +71,56 @@ public class EnAndDecryption {
 	public static String toHex(String arg) {
 		return String.format("%040x", new BigInteger(1, arg.getBytes(/*YOUR_CHARSET?*/)));
 	}
+
+
+    public static byte[] hexStringToByteArray(String s) {
+        int len = s.length();
+        byte[] data = new byte[len / 2];
+        String result = "";
+        for (int i = 0; i < len; i += 2) {
+            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                    + Character.digit(s.charAt(i+1), 16));
+            result += ((Character.digit(s.charAt(i), 16) << 4)
+                    + Character.digit(s.charAt(i+1), 16));
+        }
+        return data;
+    }
+
+    public static String timurToHex(String s) {
+        int len = s.length();
+        byte[] data = new byte[len / 2];
+        String result = "";
+        for (int i = 0; i < len; i += 2) {
+            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                    + Character.digit(s.charAt(i+1), 16));
+            result += ((Character.digit(s.charAt(i), 16) << 4)
+                    + Character.digit(s.charAt(i+1), 16));
+        }
+        return result;
+    }
+
+        public static String decryptFromTimur(String probableKey, String msg) throws Exception {
+
+            byte[] input = hexStringToByteArray(msg);
+
+            byte[] keyBytes = hexStringToByteArray(probableKey);
+
+            SecretKeySpec key = new SecretKeySpec(keyBytes, "Blowfish");
+
+            Cipher cipher = Cipher.getInstance("Blowfish/ECB/NoPadding");
+
+            byte[] plainText = new byte[input.length];
+
+            cipher.init(Cipher.DECRYPT_MODE, key);
+
+            int ptLength = cipher.update(input, 0, input.length, plainText, 0);
+
+            cipher.doFinal(plainText, ptLength);
+
+            byte[] bytes = DatatypeConverter.parseHexBinary(Utils.toHex(plainText));
+
+            return new String(bytes, "UTF-8");
+
+    }
 	
 }

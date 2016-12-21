@@ -19,6 +19,8 @@ public class BruteForce {
 		
 		while (iterator.hasNext()) {
 			String probabelKey = (String) iterator.next();
+            if (probabelKey.equals("strawberry"))
+                System.out.println();
 		    String probabelPlainMessage = EnAndDecryption.decrypt(probabelKey,message);
 
 		    if (analyzeProbabelPlainMessage(probabelPlainMessage)) {
@@ -32,51 +34,44 @@ public class BruteForce {
 	
 	public Boolean analyzeProbabelPlainMessage(String message) {
 
+        if(message.equals("g/�R&��\u0017-����\u0004\u0012���\u0004g*p�yH��3\u0007�O0��Ǭ���a5C�c�X����Pvu��8n�{�A�c1�'l-�����\u001C�\u0014�NI\u000BN���>.��J\u000Bb(;GStart�DJH�%]+Y}9���m)Z\u001A��Pw�çc�n;{�'�\u0003t�\u007Fg\u001F�ʂ"))
+            System.out.println();
+
 		Pattern letter = Pattern.compile("[A-Za-z]");
-		String [] parts = message.split("(?!^)");
-		double wholeAmount = 0;
-		double amountOfTrue = 0;
-        String withoutTrash = "";
-		for(String part : parts) {
-			wholeAmount ++;
-			if (letter.matcher(part).matches()) {
-                amountOfTrue++;
-                withoutTrash += part;
+		String [] parts = message.split("\\P{Alpha}+");
+
+        for (String part: parts) {
+            if (part.length() > 2) {
+
+                int amountOfWords = 0;
+
+                String[] splittetMessage;
+                int maxWordLength = 10;
+                if (part.length() < 10)
+                    maxWordLength = part.length() + 1;
+                for (int i = 3; i < maxWordLength; i ++) {
+                    String filler = "";
+                    for (int j = 0; j < i; j ++) {
+                        splittetMessage = (filler + part).split("(?<=\\G.{" + i + "})");
+                        amountOfWords += analyzeSplittetMessage(splittetMessage);
+                        if (amountOfWords >= 5)
+                            return true;
+                        filler += "-";
+                    }
+                }
             }
-		}
-		if ((amountOfTrue/wholeAmount) < 0.5)
-			return false;
+        }
+        return false;
 
-
-		if (withoutTrash.equals("heyGuyWhatsUpN"))
- 		    System.out.println();
-
-
-
-
-		String[] splittetMessage;
-        int foundWords = 0;
-
-		for (int i = 2; i < 10; i ++) {
-            String filler = "";
-			for (int j = 0; j < i; j ++) {
-				splittetMessage = (filler + withoutTrash).split("(?<=\\G.{" + i + "})");
-				if (analyzeSplittetMessage(splittetMessage))
-				    foundWords ++;
-                if (foundWords >= 11)
-                    return true;
-                filler += "-";
-			}
-		}
-		return false;
 	}
 	
-	private boolean analyzeSplittetMessage(String [] splittetMessage) {
+	private int analyzeSplittetMessage(String [] splittetMessage) {
+        int amountOfFoundWords = 0;
 		for (String part : splittetMessage){
-		      if (part.length() > 1 && dictionary.contains(part.toLowerCase())) {
-		         return true;
+		      if (part.length() > 2 && dictionary.contains(part.toLowerCase())) {
+                  amountOfFoundWords ++;
 		      }
 		   }
-		return false;
+		return amountOfFoundWords;
 	}
 }

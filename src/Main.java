@@ -15,14 +15,21 @@ public class Main {
 
 	public static void main(String[] args) throws Exception{
 		importWordList();
-	//	test();
-		ourInteface();
+		test();
+	//	ourInteface();
 	}
 	private static void test() throws Exception{
 		//EnAndDecryption.testFuncionality();
 
-		BruteForce bruteForce = new BruteForce(dictionary);
-		ArrayList<String> answers = bruteForce.doBruteForcing("910f16db67cb3b9a47a09f791e413e625c6a6033ccbe75a1");
+		//BruteForce bruteForce = new BruteForce(dictionary);
+		//ArrayList<String> answers = bruteForce.doBruteForcing("2d9d562a1e9c0e2aaf60d1d4cdfff0e163696ab3581b486707c462917488cca4e5dfde6ffdd30820ca53308a2dd55f93bc65d31c9874d99f730769c152401151c9c928126df4be1a52f5838516d3b439496d2780b8b3a74b5c354f03f0dbc2ea2c7de4f268856c02803747dea0b84cd24387c3ce2e0cc3db9938667a1a3c5617e9b2cac8fe9a78985c10c20c93a177c5");
+
+		//System.out.println(EnAndDecryption.decryptFromTimur("strawberry","2d9d562a1e9c0e2aaf60d1d4cdfff0e163696ab3581b486707c462917488cca4e5dfde6ffdd30820ca53308a2dd55f93bc65d31c9874d99f730769c152401151c9c928126df4be1a52f5838516d3b439496d2780b8b3a74b5c354f03f0dbc2ea2c7de4f268856c02803747dea0b84cd24387c3ce2e0cc3db9938667a1a3c5617e9b2cac8fe9a78985c10c20c93a177c5"));
+		//System.out.println(EnAndDecryption.decrypt("strawberry","2d9d562a1e9c0e2aaf60d1d4cdfff0e163696ab3581b486707c462917488cca4e5dfde6ffdd30820ca53308a2dd55f93bc65d31c9874d99f730769c152401151c9c928126df4be1a52f5838516d3b439496d2780b8b3a74b5c354f03f0dbc2ea2c7de4f268856c02803747dea0b84cd24387c3ce2e0cc3db9938667a1a3c5617e9b2cac8fe9a78985c10c20c93a177c5"));
+
+		System.out.println(EnAndDecryption.timurToHex("strawberry"));
+		System.out.println((EnAndDecryption.toHex("strawberry")));
+
 
 	}
 
